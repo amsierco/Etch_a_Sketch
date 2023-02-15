@@ -1,15 +1,24 @@
 //Variables
-const width = 35;
-const grid_container = document.querySelector('.grid');
-var grid_dimensions = 25;
+var width = 10;
+var grid_container = document.querySelector('.grid');
+//var grid_dimensions = ((width*10)*.25);
+var color_style = 'black';
 
-function cssBoxText(size){
+function cssBoxText(size_in){
+
+		let size = ((400/size_in));
     return (           
         'min-width:'+size+'px;'+
         'min-height:'+size+'px;'+
         'max-width:'+size+'px;'+
-        'max-height:'+size+'px;');
-    
+        'max-height:'+size+'px;');   
+}
+
+function cssColorText(color){
+  return (
+        'border: 1px solid '+color+';'+
+        'background-color: '+color+';'+
+        'color: '+color+';');   
 }
 
 createGrid(width);
@@ -17,7 +26,6 @@ function createGrid(size){
     //Loop to create rows then fill with columns
     //Rows
     for (let i = 0; i < size; i++) {
-
         var row = document.createElement('div');
         row.setAttribute('class', 'row');
         row.setAttribute('id', 'r'+i);
@@ -35,21 +43,26 @@ function createGrid(size){
             var column = document.createElement('button');
             column.setAttribute('class', 'btn');
             column.setAttribute('id', 'c'+i);
-            column.innerHTML = 'c';
+            column.innerHTML = '';
             column.style.cssText =             
                 'display: inline-block;'+
                 'justify-content: center;'+
                 'align-items: center;'+
-                'border: 1px solid black;'+
-                cssBoxText(grid_dimensions) +
-                'background-color: white; color: black;'+
+                cssBoxText(width) +
+                cssColorText('white') +
                 'margin: 0px;'+
-                'padding: 0px;'+
-                'color: white;';   
+                'padding: 0px;';
             row.appendChild(column);
 
             column.addEventListener('mouseover', function(e){
-                this.style.cssText = 'color: black; background-color: black;'+cssBoxText(grid_dimensions);
+                this.style.cssText =                 
+                'display: inline-block;'+
+                'justify-content: center;'+
+                'align-items: center;'+
+                cssBoxText(width) +
+								cssColorText(color_style) +
+                'margin: 0px;'+
+                'padding: 0px;'; 
             })
         }  
     }
@@ -58,18 +71,35 @@ function createGrid(size){
 //Reset the grid
 const reset_btn = document.querySelector('.reset');
 reset_btn.addEventListener('click', function(e){
-    let prev_columns = document.querySelectorAll('.btn');
-    for(let i=0; i<prev_columns.length; i++){
-        prev_columns[i].style.cssText =             
-        'display: inline-block;'+
-        'justify-content: center;'+
-        'align-items: center;'+
-        'border: 1px solid black;'+
-        cssBoxText(grid_dimensions) +
-        'background-color: white; color: black;'+
-        'margin: 0px;'+
-        'padding: 0px;'+
-        'color: white;';  
-    }
+	resetGrid(width);
 });
 
+function resetGrid(new_width){
+//Wipe grid and create a new one with updated width
+	grid_container.replaceChildren();
+  color_style = 'black';
+  createGrid(new_width);
+
+}
+
+//Change grid size
+const slider = document.querySelector('.slider');
+slider.value = width;
+slider.oninput = function(e) {
+	width=this.value;
+  if(width % 2 !=0){
+  	width ++
+  }
+	resetGrid(width);
+  let dimensions = document.querySelector('.dimensions');
+  dimensions.textContent = ''+width+'x'+width+'';
+}
+
+//Color buttons
+var color_btn = document.querySelectorAll('.color');
+for(let i = 0; i<color_btn.length; i++){
+		color_btn[i].addEventListener('click', function(e){
+  	  color_style = this.getAttribute('id');
+    });
+		color_btn[i].style.cssText = 'background-color: '+color_btn[i].getAttribute('id')+'; font-size: 25px; border-radius: 100px; padding: 10%; border: 2px solid black;';
+}
