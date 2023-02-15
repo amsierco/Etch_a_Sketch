@@ -1,7 +1,7 @@
 //Variables
-const width = 16;
+const width = 35;
 const grid_container = document.querySelector('.grid');
-var grid_dimensions = 50;
+var grid_dimensions = 25;
 
 function cssBoxText(size){
     return (           
@@ -9,6 +9,7 @@ function cssBoxText(size){
         'min-height:'+size+'px;'+
         'max-width:'+size+'px;'+
         'max-height:'+size+'px;');
+    
 }
 
 createGrid(width);
@@ -22,10 +23,9 @@ function createGrid(size){
         row.setAttribute('id', 'r'+i);
         row.style.cssText = 
             'display: flex;'+
-            'justify-content: flex-start;'+
+            'justify-content: center;'+
             'align-items: center;'+
-            +//'border: 1px solid black;'+
-            'background-color: red;'+
+            'background-color: lightsalmon;'+
             'margin: 0px;'+
             'padding: 0px;'; 
         grid_container.appendChild(row);
@@ -37,7 +37,7 @@ function createGrid(size){
             column.setAttribute('id', 'c'+i);
             column.innerHTML = 'c';
             column.style.cssText =             
-                'display: flex;'+
+                'display: inline-block;'+
                 'justify-content: center;'+
                 'align-items: center;'+
                 'border: 1px solid black;'+
@@ -54,4 +54,22 @@ function createGrid(size){
         }  
     }
 }
+
+//Reset the grid
+const reset_btn = document.querySelector('.reset');
+reset_btn.addEventListener('click', function(e){
+    let prev_columns = document.querySelectorAll('.btn');
+    for(let i=0; i<prev_columns.length; i++){
+        prev_columns[i].style.cssText =             
+        'display: inline-block;'+
+        'justify-content: center;'+
+        'align-items: center;'+
+        'border: 1px solid black;'+
+        cssBoxText(grid_dimensions) +
+        'background-color: white; color: black;'+
+        'margin: 0px;'+
+        'padding: 0px;'+
+        'color: white;';  
+    }
+});
 
