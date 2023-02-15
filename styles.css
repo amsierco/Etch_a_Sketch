@@ -1,0 +1,23 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+    color: white;
+    margin: 0px;
+    padding: 0px;
+    border: 25px solid lightsalmon;
+}
+
+.btn, #c1{
+    color: red;
+}
+
+.btn:hover {
+    color: black;
+    background-color: black;
+}
